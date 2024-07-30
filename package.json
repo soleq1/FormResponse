@@ -26,6 +26,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@auth/sveltekit": "^1.4.1"
+		"@auth/sveltekit": "^1.4.1",
+		"html-to-image": "^1.11.11"
 	}
 }
