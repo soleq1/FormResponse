@@ -2,10 +2,13 @@
   import { page } from "$app/stores";
   import { codingSkillsForm,codingSkillsForm2,FeedBack } from "$lib/array";
   import Googlepill from "$lib/components/googlepill.svelte";
-import {captureScreenShot} from "$lib/filedownload"
+    
   import { signIn } from "@auth/sveltekit/client";
   import type { Question,Response,Focus } from "../types";
   import Feedback from "$lib/feedback.svelte";
+  import { downloadImage } from "$lib/filedownload";
+  import { tick } from "svelte";
+
 
   
 
@@ -66,8 +69,9 @@ let signatureText:String = '';
 let screenshot: any;
 const handleDownloading = async () =>{
     try{
+       
         downloaded = true   
-        await captureScreenShot(screenshot)
+        await downloadImage(screenshot)
     } catch(error){
         console.log(error)
     }finally{
@@ -126,15 +130,16 @@ const handleDelete = () => {
         <button on:click={() => handlePreset(codingSkillsForm)}  class="p-2 text-white   bg-blue-900/30 text-xl font-semibold border-2 rounded-lg">Mock Interview Questions:</button>
         <button on:click={() => handlePreset(FeedBack)} class="p-2  bg-blue-900/30 text-xl text-white font-semibold border-2 rounded-lg">FeedBack Form</button>
         {#if $page.data.session?.user}
-        <button on:click={handleDownloading} class="p-2 bg-blue-900/30 text-white text-xl font-semibold border-2 rounded-lg">
+         <button on:click={handleDownloading} class="p-2 bg-blue-900/30 text-white text-xl font-semibold border-2 rounded-lg">
         Download Form
-    </button>
+    </button> 
+    
 {:else}
 <button on:click={() => signIn("google")} class="p-2 text-xl text-white font-semibold border-2 rounded-lg">Login To Download</button>
 
 {/if}
-
-            </div>
+<!-- <button on:click={() =>downloaded = !downloaded}>TEST</button> -->
+    </div>
     <div class="flex gap-2 text-white">
 
         {#if titleFocus == true}
@@ -144,7 +149,7 @@ const handleDelete = () => {
         {/if}
     </div>
     <!-- <div bind:this={screenshot} class="paper bg-white rounded-lg shadow-lg p-6 overflow-auto flex-col justify-between"> -->
-        <div bind:this={screenshot} class="paper bg-white rounded-lg shadow-lg p-6 overflow-hidden flex flex-col justify-between" style="width: 816px; height: 1056px;">
+        <div bind:this={screenshot} id="form" class="paper bg-white rounded-lg shadow-lg p-6 overflow-hidden flex flex-col justify-between" style="width: 816px; height: 1056px;">
 
         <input bind:value={Title}  on:focus={() => titleFocus = true} on:blur={handleBlur}   class="w-full text-2xl p-2 mb-4 rounded-lg {alignment === 'right' ? 'text-right' : alignment === 'center' ? 'text-center' : 'text-left'}" placeholder="Title Here" />
         <div class="mb-4">
@@ -189,8 +194,9 @@ const handleDelete = () => {
                 
                 {/if}
                 {#if item.comments != undefined}
-                <textarea 
-                class="p-1 border rounded-lg w-full {downloaded ? ' text' : ''}"
+                <input
+            class="p-1 border rounded-lg w-full resize-none"
+
                 placeholder="Add Comments Here"
                     bind:value={item.comments}
                     on:focus={() =>handleFocus(index,"comments")}
@@ -254,11 +260,7 @@ const handleDelete = () => {
 
 
 <style>
-    textarea{
-        resize:vertical;
-        max-width:100%;
-        border:none;
-    }
+    
     input{
         color:black;
         border:none; 
@@ -284,4 +286,31 @@ const handleDelete = () => {
             border:none;
         }
     }
+    input[type="radio"] {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 1em;
+      height: 1em;
+      border-radius: 50%;
+      border: 1px solid currentColor;
+      background-color: white;
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    input[type="radio"]:checked::before {
+      content: '';
+      display: inline-block;
+      width: 0.5em;
+      height: 0.5em;
+      border-radius: 50%;
+      background-color: currentColor;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+   
+   
     </style>

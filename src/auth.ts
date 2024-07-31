@@ -2,6 +2,8 @@
 import { SvelteKitAuth } from "@auth/sveltekit"
 import Google from "@auth/sveltekit/providers/google"
 
+
+
 const googleClientId = process.env.AUTH_GOOGLE_ID;
 const googleClientSecret = process.env.AUTH_GOOGLE_SECRET;
 const googleAuthSecret = process.env.AUTH_SECRET
