@@ -119,6 +119,7 @@ const handleDelete = () => {
         responses = []
         Title = ""
     }
+    $:console.log(tempRating,addResponse,addComments)
 </script>
 
 <div class="flex flex-col  justify-center items-center h-screen text-black">
@@ -162,7 +163,7 @@ const handleDelete = () => {
                     </div>
                     <div class="i items-center mx-4 {downloaded ? 'hidden': ''}">
                         
-
+<!-- 
                             <label for="ratingcheck" class="mr-2">Add Rating</label>
                             <input bind:checked={tempRating} id="ratingcheck" type="checkbox" />
                         
@@ -170,7 +171,38 @@ const handleDelete = () => {
                         <input bind:checked={addResponse} id="ratingcheck" type="checkbox" />
                         <label for="ratingcheck" class="mr-2">Add Comments</label>
                         <input bind:checked={addComments} id="ratingcheck" type="checkbox" />
-                        
+                         -->
+                            
+                         <button
+                         class={`button px-2 bg-blue-500 rounded-md cursor-pointer select-none transition-all duration-150 border-b-4 border-blue-700
+                           ${tempRating ? 'translate-y-2 shadow-none border-b-0 border-blue-900 ' : '[box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]'}
+                         `}
+                         on:click={() => tempRating =  !tempRating}
+                       >
+                         <span class="flex flex-col justify-center items-center h-full text-white font-bold text-lg">
+                           Ratings 1-10
+                         </span>
+                       </button>            
+                        <button
+                        class={`button px-2 bg-blue-500 rounded-md cursor-pointer select-none transition-all duration-150 border-b-4 border-blue-700
+                          ${addResponse ? 'translate-y-2 shadow-none border-b-0 border-blue-900 ' : '[box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]'}
+                        `}
+                        on:click={() => addResponse =  !addResponse}
+                      >
+                        <span class="flex flex-col justify-center items-center h-full text-white font-bold text-lg">
+                          Response
+                        </span>
+                      </button>            
+                      <button
+                      class={`button px-2 bg-blue-500 rounded-md cursor-pointer select-none transition-all duration-150 border-b-4 border-blue-700
+                        ${addComments ? 'translate-y-2 shadow-none border-b-0 border-blue-900 ' : '[box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]'}
+                      `}
+                      on:click={() => addComments =  !addComments}
+                    >
+                      <span class="flex flex-col justify-center items-center h-full text-white font-bold text-lg">
+                        Comments
+                      </span>
+                    </button>            
                     </div>
                 </div>
             </div>
@@ -265,6 +297,9 @@ const handleDelete = () => {
         color:black;
         border:none; 
     }
+    .pressed {
+    height: 50%;
+  }
     .paper{
         width:8.5in;
         height:11in;
